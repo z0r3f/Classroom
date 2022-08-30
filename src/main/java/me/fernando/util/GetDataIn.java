@@ -1,5 +1,6 @@
 package me.fernando.util;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class GetDataIn {
@@ -16,6 +17,9 @@ public class GetDataIn {
         // Declaro y asigno la variable name con el valor que introduzcan
         String name = scanner.nextLine();
 
+        System.out.print("How old are you? ");
+        double age = getDoubleFromUser(scanner);
+
         // Compruebo los valores por método ya que si lo hago así `name = "Carlos"` y `name = "Antonia"`
         // lo que estoy haciendo es comparar las propias valores, no su contenido
         if (name.equalsIgnoreCase(CARLOS)) {
@@ -27,5 +31,21 @@ public class GetDataIn {
         } else {
             System.out.println("Hello " + name + ". I don't know you");
         }
+        System.out.printf("You are %s years old", age);
+    }
+
+    private static double getDoubleFromUser(Scanner scanner) {
+        double number = 0;
+        boolean isNumber = false;
+        do {
+            try {
+                number = scanner.nextDouble();
+                isNumber = true;
+            } catch (InputMismatchException e) {
+                System.out.println("You must enter a number");
+                scanner.next();
+            }
+        } while (!isNumber);
+        return number;
     }
 }
