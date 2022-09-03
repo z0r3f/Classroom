@@ -9,12 +9,15 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-    var request = handleParameters(args);
+        var request = handleParameters(args);
 
         switch (request.getMode()) {
             case ADD -> request.getUser().save();
+            case VALIDATE ->
+                    System.out.printf("The %s is %s%n", request.getUser(), (User.isValid(request.getUser()) ? "valid" : "invalid"));
             default -> throw new Exception("Bad execution...");
         }
+        System.exit(0);
     }
 
     private static Request handleParameters(String[] args) {
@@ -40,6 +43,9 @@ public class App {
             }
             if (actualParameter.equalsIgnoreCase("-p")) {
                 password = args[++i];
+            }
+            if (actualParameter.equalsIgnoreCase("-v")) {
+                mode = Mode.VALIDATE;
             }
             //System.out.printf("\n%d → %s", i, actualParameter);
         }
